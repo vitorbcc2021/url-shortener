@@ -3,7 +3,7 @@ import express, { json } from 'express'
 import cors from 'cors'
 import { default as mongoose } from 'mongoose'
 import urlRouter from './routes/url-route.js'
-import userRegistrationRouter from './routes/user-registration-route.js'
+import authRouter from './routes/auth-route.js'
 
 dotenv.config()
 
@@ -11,8 +11,8 @@ const app = express()
 app.use(cors())
 app.use(json())
 
-app.use('/url', urlRouter)
-app.use('/auth', userRegistrationRouter)
+app.use('/', urlRouter)
+app.use('/auth', authRouter)
 
 await mongoose.connect(process.env.MONGO_URI)
 
