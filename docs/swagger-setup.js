@@ -14,7 +14,7 @@ import authPaths from './paths/auth.js'
 import urlPaths from './paths/url.js'
 
 
-export default (app, port) => { // Adicione o parâmetro 'port'
+export default (app, port) => {
   const options = {
     definition: {
       openapi: '3.0.0',
@@ -24,7 +24,7 @@ export default (app, port) => { // Adicione o parâmetro 'port'
         description: 'API para encurtamento de URLs com autenticação JWT'
       },
       servers: [{ 
-        url: `http://localhost:${port}`, // Use o parâmetro aqui
+        url: `http://localhost:${port}`,
         description: 'Servidor de Desenvolvimento' 
       }],
       components: {
