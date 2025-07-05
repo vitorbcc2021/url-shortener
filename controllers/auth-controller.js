@@ -12,9 +12,9 @@ export async function login(req, res) {
         if (!user) {
             return res.status(404).json({ error: 'User not found!' })
         } else if (bcrypt.compare(req.body.password, user.password)) {
-            const payload = { username: user.username, role: user.role}
+            const payload = { username: user.username, role: user.role }
             const SECRET = process.env.SECRET
-            const token = jwt.sign(payload, SECRET)
+            const token = jwt.sign(payload, SECRET, { expiresIn: '2h' })
 
             return res.status(200).json({ token: token })
         }
@@ -37,7 +37,7 @@ export async function createUser(req, res) {
 
         const SECRET = process.env.SECRET
 
-        const token = jwt.sign(payload, SECRET)
+        const token = jwt.sign(payload, SECRET, { expiresIn: '2h' })
 
         return res.status(201).json({ token: token })
     }

@@ -7,24 +7,45 @@ export async function shortenUrl(req, res) {
     const { originalUrl } = req.body
     const id = randomU32(0, 10000)
 
+
+    const owner = req.user.username
+
     const model = new UrlModel({
         originalUrl: originalUrl,
-        shortUrl: id
+        shortUrl: id,
+        owner: owner
     })
 
-    await model.save()
-    return res.status(201).json({ 'originalUrl': originalUrl, 'shortenUrl': id })
+    try {
+        await model.save()
+        return res.status(201).json({ originalUrl: originalUrl, shortenUrl: id, owner: owner })
+    } catch (error) {
+        return res.status(400).json({ erro: 'Erro ao tentar encurtar a URL!' })
+    }
 }
 
 export async function goToUrl(req, res) {
-    const { shortUrl } = req.params
+    const { shortUrl } = req.params;
 
-    const urlFound = await UrlModel.findOne({ shortUrl: shortUrl })
+    if (shortUrl === 'favicon.ico') {
+        return res.status(204).end();
+    }
 
-    if (urlFound) {
-        return res.redirect(urlFound.originalUrl)
-    } else {
-        return res.status(404).json({ 'res': 'url not found' })
+    try {
+        const urlFound = await UrlModel.findOne({ shortUrl: shortUrl });
+
+        if (urlFound) {
+            let targetUrl = urlFound.originalUrl;
+            if (!/^https?:\/\//i.test(targetUrl)) {
+                targetUrl = 'http://' + targetUrl;
+            }
+
+            return res.status(302).redirect(targetUrl);
+        } else {
+            return res.status(404).json({ message: 'URL not found' });
+        }
+    } catch (error) {
+        return res.status(500).json({ message: 'Server error' });
     }
 }
 
@@ -32,25 +53,35 @@ export async function editUrl(req, res) {
     const urlUpdateDto = new UrlUpdateDto(req.body)
     const { shortUrl } = req.params
 
-    const filter = { shortUrl }
+    const owner = req.user.username
+    const filter = { shortUrl: shortUrl, owner: owner }
 
-    const url = await UrlModel.findOneAndUpdate(filter, urlUpdateDto, { new: true })
+    try {
+        const url = await UrlModel.findOneAndUpdate(filter, urlUpdateDto, { new: true })
 
-    if (url) {
-        return res.status(201).json(urlUpdateDto)
-    } else {
-        return res.status(404).json({ 'res': 'Not found!' })
+        if (url) {
+            return res.status(201).json(urlUpdateDto)
+        } else {
+            return res.status(404).json({ res: 'Not found!' })
+        }
+    } catch (error) {
+        return res.status(400).json({ error: 'Ocorreu um erro ao tentar editar a URL.' })
     }
 }
 
 export async function deleteUrl(req, res) {
     const { shortUrl } = req.params
+    const owner = req.user.username
 
-    const url = await UrlModel.findOneAndDelete({ shortUrl: shortUrl })
+    try {
+        const url = await UrlModel.findOneAndDelete({ shortUrl: shortUrl, owner: owner })
 
-    if (url) {
-        return res.status(200).json('Deleted!')
-    } else {
-        return res.status(404).json({ 'res': 'Not found!' })
+        if (url) {
+            return res.status(204).json('Deleted!')
+        } else {
+            return res.status(404).json({ res: 'Not found!' })
+        }
+    } catch (error) {
+        res.status(400).json({ error: 'Ocorreu um erro ao tentar deletar a URL encurtada' })
     }
 }
