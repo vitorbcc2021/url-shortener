@@ -1,10 +1,11 @@
 import dotenv from 'dotenv'
 import express, { json } from 'express'
 import cors from 'cors'
-import { default as mongoose } from 'mongoose'
 import urlRouter from './routes/url-route.js'
 import authRouter from './routes/auth-route.js'
 import setupSwagger from './docs/swagger-setup.js'
+import { connectDB } from './connect-db.js'
+
 
 dotenv.config()
 
@@ -23,7 +24,7 @@ app.use('/', urlRouter)
 app.use('/auth', authRouter)
 
 
-await mongoose.connect(process.env.MONGO_URI)
+connectDB()
 
 app.listen(PORT, () => {
     console.log(`Server running...\n`)
