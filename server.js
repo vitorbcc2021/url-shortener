@@ -14,10 +14,7 @@ app.use(cors())
 app.use(json())
 
 
-const PORT = process.env.PORT || 3000
-
-
-setupSwagger(app, PORT)
+setupSwagger(app)
 
 
 app.use('/', urlRouter)
@@ -26,6 +23,9 @@ app.use('/auth', authRouter)
 
 connectDB()
 
+
+const PORT = process.env.PORT
+
 app.listen(PORT, () => {
-    console.log(`Server running...\n`)
+    console.log(`Server running on ${process.env.SERVER}...\n`)
 })
