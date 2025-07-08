@@ -33,7 +33,7 @@ export async function createUser(req, res) {
 
         const user = await UserModel.create(dto)
 
-        const payload = { username: user.username }
+        const payload = { username: user.username, role: user.role }
 
         const SECRET = process.env.SECRET
 
