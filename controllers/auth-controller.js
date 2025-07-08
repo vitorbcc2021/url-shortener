@@ -23,7 +23,7 @@ export async function login(req, res) {
         }
     }
     catch (error) {
-        return res.status(400).json({ error: error.message })
+        return res.status(400).json({ error: error })
     }
 }
 
@@ -42,6 +42,6 @@ export async function createUser(req, res) {
         return res.status(201).json({ token: token })
     }
     catch (error) {
-        return res.status(400).json({ error: error.message })
+        return res.status(400).json({ error: error })
     }
 } 
