@@ -1,6 +1,6 @@
 # Hello there!
 
-> This page covers the backend part of the project. You can view the frontend by clicking [here](link-available-soon).
+> This page covers the backend part of the project. You can view the frontend by clicking [here](https://github.com/vitorbcc2021/url-shortener-frontend).
 
 This is my **URL shortener** - a project developed in Node.js and Express for learning purposes!
 
