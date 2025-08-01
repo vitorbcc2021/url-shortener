@@ -8,7 +8,7 @@ const router = Router()
 
 router.post('/', authenticate, authorize(['client', 'admin']), shortenUrl)
 router.get('/:shortUrl', goToUrl)
-router.get('/', authenticate, authorize(['client', 'admin']), getUrlList)
+router.get('/urls', authenticate, authorize(['client', 'admin']), getUrlList)
 router.put('/:shortUrl', authenticate, authorize(['client', 'admin']), editUrl)
 router.delete('/:shortUrl', authenticate, authorize(['client', 'admin']), deleteUrl)
 
