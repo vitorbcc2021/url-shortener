@@ -7,8 +7,8 @@ import { authorize } from '../middlewares/authorize-jwt.js'
 const router = Router()
 
 router.post('/', authenticate, authorize(['client', 'admin']), shortenUrl)
-router.get('/:shortUrl', goToUrl)
 router.get('/urls', authenticate, authorize(['client', 'admin']), getUrlList)
+router.get('/:shortUrl', goToUrl)
 router.put('/:shortUrl', authenticate, authorize(['client', 'admin']), editUrl)
 router.delete('/:shortUrl', authenticate, authorize(['client', 'admin']), deleteUrl)
 
