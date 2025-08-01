@@ -3,6 +3,7 @@ import { UrlModel } from '../models/url-model.js'
 import { UrlUpdateDto } from '../dto/url-update-dto.js'
 
 
+
 export async function shortenUrl(req, res) {
     const { originalUrl } = req.body
     const id = randomU32(0, 10000)
@@ -23,6 +24,8 @@ export async function shortenUrl(req, res) {
         return res.status(400).json({ erro: 'Erro ao tentar encurtar a URL!' })
     }
 }
+
+
 
 export async function goToUrl(req, res) {
     const { shortUrl } = req.params;
@@ -49,6 +52,22 @@ export async function goToUrl(req, res) {
     }
 }
 
+
+
+export async function getUrlList(req, res) {
+    const { username } = req.user
+
+    try {
+        const urlList = await UrlModel.find({ owner: username })
+
+        return res.status(200).json(urlList)
+    } catch (error) {
+        return res.status(404).json({ error: error })
+    }
+}
+
+
+
 export async function editUrl(req, res) {
     const urlUpdateDto = new UrlUpdateDto(req.body)
     const { shortUrl } = req.params
@@ -68,6 +87,8 @@ export async function editUrl(req, res) {
         return res.status(400).json({ error: 'Ocorreu um erro ao tentar editar a URL.' })
     }
 }
+
+
 
 export async function deleteUrl(req, res) {
     const { shortUrl } = req.params
