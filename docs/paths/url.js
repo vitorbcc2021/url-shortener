@@ -37,48 +37,6 @@ export default {
                 }
             }
         },
-        '/urls': {
-            get: {
-                summary: 'Listar todas as URLs do usuário',
-                description: 'Retorna todas as URLs encurtadas pelo usuário autenticado',
-                tags: ['URL'],
-                security: [{ BearerAuth: [] }],
-                responses: {
-                    200: {
-                        description: 'Lista de URLs do usuário',
-                        content: {
-                            'application/json': {
-                                schema: {
-                                    type: 'array',
-                                    items: {
-                                        $ref: '#/components/schemas/Url'
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    401: {
-                        $ref: '#/components/responses/Unauthorized'
-                    },
-                    404: {
-                        description: 'Nenhuma URL encontrada para este usuário',
-                        content: {
-                            'application/json': {
-                                schema: {
-                                    type: 'object',
-                                    properties: {
-                                        message: { type: 'string' }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    500: {
-                        $ref: '#/components/responses/ServerError'
-                    }
-                }
-            }
-        },
     },
     '/{shortUrl}': {
         get: {
@@ -168,6 +126,48 @@ export default {
                 },
                 404: {
                     $ref: '#/components/responses/NotFound'
+                }
+            }
+        }
+    },
+    '/urls': {
+        get: {
+            summary: 'Listar todas as URLs do usuário',
+            description: 'Retorna todas as URLs encurtadas pertencentes ao usuário autenticado',
+            tags: ['URL'],
+            security: [{ BearerAuth: [] }],
+            responses: {
+                200: {
+                    description: 'Lista de URLs do usuário',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'array',
+                                items: {
+                                    $ref: '#/components/schemas/Url'
+                                }
+                            }
+                        }
+                    }
+                },
+                401: {
+                    $ref: '#/components/responses/Unauthorized'
+                },
+                404: {
+                    description: 'Nenhuma URL encontrada para este usuário',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    error: {
+                                        type: 'object',
+                                        description: 'Objeto de erro completo do Mongoose'
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
