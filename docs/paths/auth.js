@@ -1,5 +1,5 @@
 export default {
-    '/auth/register': {
+    '/register': {
         post: {
             summary: 'Registrar novo usuário',
             tags: ['Authentication'],
@@ -44,7 +44,7 @@ export default {
             }
         }
     },
-    '/auth/login': {
+    '/login': {
         post: {
             summary: 'Autenticar usuário',
             tags: ['Authentication'],
