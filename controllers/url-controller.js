@@ -106,3 +106,21 @@ export async function deleteUrl(req, res) {
         res.status(400).json({ error: 'Ocorreu um erro ao tentar deletar a URL encurtada' })
     }
 }
+
+
+
+export async function delRecruiterUrls(req, res) {
+    const owner = req.user.username
+
+    try {
+        const delReqInfo = await UrlModel.deleteMany({ owner: owner })
+
+        if (delReqInfo) {
+            return res.status(204).json(`Deleted! ${delReqInfo}`)
+        } else {
+            return res.status(404).json({ res: `${delReqInfo}` })
+        }
+    } catch (error) {
+        res.status(400).json({ error: 'Ocorreu um erro ao tentar deletar as URLs do Recrutador' })
+    }
+}

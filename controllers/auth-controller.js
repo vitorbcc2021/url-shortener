@@ -27,6 +27,25 @@ export async function login(req, res) {
     }
 }
 
+export async function loginAsRecruiter(req, res) {
+    try {
+        const user = await UserModel.findOne({ username: 'Recruiter-Profile' })
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found!' })
+        } else {
+            const payload = { username: user.username, role: user.role }
+            const SECRET = process.env.SECRET
+            const token = jwt.sign(payload, SECRET, { expiresIn: '30m' })
+
+            return res.status(200).json({ token: token })
+        }
+    }
+    catch (error) {
+        return res.status(400).json({ error: error.message })
+    }
+}
+
 export async function createUser(req, res) {
     try {
         const dto = await AuthDto.create(req.body)
