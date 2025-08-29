@@ -29,7 +29,7 @@ export async function login(req, res) {
     }
 }
 
-export async function loginAsRecruiter(res) {
+export async function loginAsRecruiter(req, res) {
     try {
         const user = await UserModel.findOne({ username: 'Recruiter-Profile' })
 
