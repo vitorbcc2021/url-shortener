@@ -5,9 +5,7 @@ import jwt from 'jsonwebtoken'
 
 export async function login(req, res) {
     try {
-        const dto = await AuthDto.create(req.body)
-
-        const user = await UserModel.findOne({ username: dto.username })
+        const user = await UserModel.findOne({ username: req.body.username })
 
         if (!user) return res.status(404).json({ error: 'User not found!' })
 
