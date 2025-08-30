@@ -5,11 +5,12 @@ import jwt from 'jsonwebtoken'
 
 export async function login(req, res) {
     try {
-        const user = await UserModel.findOne({ username: req.body.username })
+        const { username, password } = req.body
+        const user = await UserModel.findOne({ username: username })
 
         if (!user) return res.status(404).json({ error: 'User not found!' })
 
-        const isPasswordCorrect = await bcrypt.compare(req.body.password, user.password)
+        const isPasswordCorrect = await bcrypt.compare(password, user.password)
 
         if (isPasswordCorrect) {
             const payload = { username: user.username, role: user.role }
