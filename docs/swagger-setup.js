@@ -23,9 +23,9 @@ export default (app) => {
         version: '1.0.0',
         description: 'API para encurtamento de URLs com autenticação JWT'
       },
-      servers: [{
+      servers: [{ 
         url: process.env.SERVER || `http://localhost:${process.env.PORT}`,
-        description: 'Servidor de Desenvolvimento'
+        description: 'Servidor de Desenvolvimento' 
       }],
       components: {
         schemas,
