@@ -23,9 +23,9 @@ export default (app) => {
         version: '1.0.0',
         description: 'API para encurtamento de URLs com autenticação JWT'
       },
-      servers: [{ 
+      servers: [{
         url: process.env.SERVER || `http://localhost:${process.env.PORT}`,
-        description: 'Servidor de Desenvolvimento' 
+        description: 'Servidor de Desenvolvimento'
       }],
       components: {
         schemas,
@@ -41,6 +41,11 @@ export default (app) => {
       path.resolve(__dirname, '../../routes/auth-route.js'),
       path.resolve(__dirname, '../../routes/url-route.js')
     ],
+    customCssUrl: 'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.min.css',
+    customJs: [
+      'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-bundle.js',
+      'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-standalone-preset.js'
+    ]
   };
 
   const swaggerSpec = swaggerJSDoc(options);
