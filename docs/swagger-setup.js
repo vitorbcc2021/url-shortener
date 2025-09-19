@@ -41,17 +41,18 @@ export default (app) => {
       path.resolve(__dirname, '../../routes/auth-route.js'),
       path.resolve(__dirname, '../../routes/url-route.js')
     ],
-    customCssUrl: 'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.min.css',
-    customJs: [
-      'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-bundle.js',
-      'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-standalone-preset.js'
-    ]
   };
 
   const swaggerSpec = swaggerJSDoc(options);
 
   app.use('/api-docs', swaggerUi.serve);
-  app.get('/api-docs', swaggerUi.setup(swaggerSpec));
+  app.get('/api-docs', swaggerUi.setup(swaggerSpec, {
+    customCssUrl: 'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.min.css',
+    customJs: [
+      'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-bundle.js',
+      'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-standalone-preset.js'
+    ]
+  }));
 
   app.get('/swagger.json', (req, res) => {
     res.setHeader('Content-Type', 'application/json');
