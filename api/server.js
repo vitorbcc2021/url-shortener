@@ -1,10 +1,10 @@
 import dotenv from 'dotenv'
 import express, { json } from 'express'
 import cors from 'cors'
-import urlRouter from './routes/url-route.js'
-import authRouter from './routes/auth-route.js'
-import setupSwagger from './docs/swagger-setup.js'
-import { connectDB } from './connect-db.js'
+import urlRouter from '../routes/url-route.js'
+import authRouter from '../routes/auth-route.js'
+import setupSwagger from '../docs/swagger-setup.js'
+import { connectDB } from '../utils/connect-db.js'
 
 
 dotenv.config()
@@ -24,8 +24,12 @@ app.use('/auth', authRouter)
 connectDB()
 
 
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-    console.log(`Server running on ${process.env.SERVER}...\n`)
-})
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}
+
+export default app;
