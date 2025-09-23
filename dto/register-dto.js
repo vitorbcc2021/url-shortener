@@ -1,8 +1,8 @@
 import bcrypt from 'bcrypt'
 
-export class AuthDto {
+export class RegisterDto {
     constructor(data) {
-        if(!data.username || !data.password){
+        if (!((data.username && data.password && data.confirmPassword) && (data.password === data.confirmPassword))) {
             throw new Error('Username and password cannot be empty!')
         }
         this.username = data.username
@@ -10,7 +10,7 @@ export class AuthDto {
     }
 
     static async create(data) {
-        const dto = new AuthDto(data)
+        const dto = new RegisterDto(data)
 
         dto.password = await bcrypt.hash(dto.password, 10)
         return dto

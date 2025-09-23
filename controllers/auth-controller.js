@@ -1,4 +1,4 @@
-import { AuthDto } from "../dto/auth-dto.js";
+import { RegisterDto } from "../dto/register-dto.js";
 import { UserModel } from "../models/user-model.js";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
@@ -49,7 +49,7 @@ export async function loginAsRecruiter(req, res) {
 
 export async function createUser(req, res) {
     try {
-        const dto = await AuthDto.create(req.body)
+        const dto = await RegisterDto.create(req.body)
 
         const user = await UserModel.create(dto)
 
